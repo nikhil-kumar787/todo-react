@@ -49,7 +49,7 @@ const styles = theme => ({
     },
 });
 
-class SignUp extends Component {
+class Signin extends Component {
 
     constructor() {
         super();
@@ -78,18 +78,18 @@ class SignUp extends Component {
         const { email, password } = this.state;
 
         axios
-            .post('https://todo-rest-b.herokuapp.com/register', { email, password })
+            .post('https://todo-rest-b.herokuapp.com/login', { email, password })
             .then(res => {
                 this.setState({
                     email: '',
                     password: '',
                 })
                 this.props.history.push('/');
-                NotificationManager.success('User Registered Successfully!', 'Successful!', 2000);
+                NotificationManager.success('Login Successful!', 'Successful!', 2000);
             })
             .catch(err => {
 
-                NotificationManager.error('Error while Creating new User!', 'Error!');
+                NotificationManager.error('Please check your email and password!', 'Error!');
             })
     }
     
@@ -127,7 +127,7 @@ class SignUp extends Component {
                                 <PersonAddIcon />
                             </Avatar>
                             <Typography component="h1" variant="h5">
-                                Sign up
+                                Sign in
                             </Typography>
                             <form className={classes.form} noValidate onSubmit={this.onSubmit}>
                                 <Grid container spacing={2}>
@@ -193,13 +193,13 @@ class SignUp extends Component {
                                    
                                 >
                                      {loading && <CircularProgress size={14} />}
-                                    {!loading && 'Sign up'}
+                                    {!loading && 'Sign in'}
                                 </Button>
                               
                                 <Grid container justifyContent="flex-end">
                                     <Grid item>
                                         <Link href="#" variant="body2">
-                                            Already have an account? Sign in
+                                            Don't have an account? Sign Up
                                         </Link>
                                     </Grid>
                                 </Grid>
@@ -216,4 +216,4 @@ class SignUp extends Component {
     }
 
 }
-export default withStyles(styles, { withTheme: true })(SignUp);
+export default withStyles(styles, { withTheme: true })(Signin);
