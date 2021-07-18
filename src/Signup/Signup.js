@@ -78,14 +78,14 @@ class SignUp extends Component {
         const { email, password } = this.state;
 
         axios
-            .post('https://todo-rest-b.herokuapp.com/register', { email, password })
+            .post('http://localhost:5000/register', { email, password })
             .then(res => {
                 this.setState({
                     email: '',
                     password: '',
                 })
-                this.props.history.push('/');
-                NotificationManager.success('User Registered Successfully!', 'Successful!', 2000);
+                this.props.history.push('/forward');
+                NotificationManager.success('User Registered Successfully!'," ", 2000);
             })
             .catch(err => {
 
@@ -103,7 +103,7 @@ class SignUp extends Component {
             return (
                 <Typography variant="body2" color="inherit" align="center">
                     {'Copyright © '}
-                    <Link color="inherit" href="https://material-ui.com/">
+                    <Link color="inherit" href="/">
                         Todo App
                     </Link>{' '}
                     {new Date().getFullYear()}

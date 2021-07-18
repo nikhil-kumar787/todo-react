@@ -4,19 +4,25 @@ import SignUp from './Signup/Signup';
 import Signin from './Signin/Signin';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
+import Welcome from './Welcome/Welcome';
+import Forward from './Welcome/Forward';
+import Home from './Home/Home';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      
       <Router>
         <Switch>
           <Route path="/" exact component={SignUp} />
           <Route path="/login" exact component={Signin} />
+          <Route path="/confirm/:confirmationCode" component={Welcome} />
+          <Route path="/forward" exact component={Forward} />
+          <Route path="/home" exact component={Home} />
           </Switch>
           <NotificationContainer />
       </Router>
-      </header>
+    
 
       {/* <Router>
         <Switch>

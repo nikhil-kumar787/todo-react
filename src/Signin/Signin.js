@@ -10,9 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { NotificationManager } from 'react-notifications';
 import { CircularProgress } from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import axios from 'axios';
 
@@ -24,8 +24,8 @@ const styles = theme => ({
         flexWrap: 'wrap',
         '& > *': {
             margin: theme.spacing(1),
-            width: theme.spacing(100),
-            height: theme.spacing(60),
+            width: theme.spacing(60),
+            height: theme.spacing(55),
         },
     },
     paper: {
@@ -35,10 +35,11 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -50,13 +51,16 @@ const styles = theme => ({
 });
 
 class Signin extends Component {
+    
 
     constructor() {
         super();
+        let loggedIn = false;
         this.state = {
             email: '',
             password: '',
-            loading: false
+            loading: false,
+            loggedIn,
         };
     }
 
@@ -64,7 +68,7 @@ class Signin extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
-    onSubmit = e => {
+     onSubmit = async e => {
         e.preventDefault();
         this.setState({ loading: true })
         setTimeout(() => {
@@ -75,24 +79,37 @@ class Signin extends Component {
         //     password: this.state.password
 
         // };
+        let usertoken
+        let userid 
         const { email, password } = this.state;
 
-        axios
+         await axios
             .post('https://todo-rest-b.herokuapp.com/login', { email, password })
             .then(res => {
+                 usertoken = res.data.token;
+                 userid = res.data.userid;
+                // console.log(res.data.token)
                 this.setState({
-                    email: '',
-                    password: '',
+
+                    loggedIn: true,
                 })
+                
                 this.props.history.push('/');
-                NotificationManager.success('Login Successful!', 'Successful!', 2000);
+                NotificationManager.success('Login Successful!', '', 2000);
             })
             .catch(err => {
 
-                NotificationManager.error('Please check your email and password!', 'Error!');
+                NotificationManager.error('Please check your email and password!');
             })
+            // console.log(token)
+            // this.setState({
+            //     loggedIn: true,
+            //   });
+           console.log(userid)
+            localStorage.setItem("token", usertoken);
+            localStorage.setItem("userId", userid);
     }
-    
+
 
 
 
@@ -101,7 +118,7 @@ class Signin extends Component {
         const { classes } = this.props;
         function Copyright() {
             return (
-                <Typography variant="body2" color="inherit" align="center">
+                <Typography variant="body1" color="inherit" align="center">
                     {'Copyright © '}
                     <Link color="inherit" href="https://material-ui.com/">
                         Todo App
@@ -124,39 +141,17 @@ class Signin extends Component {
                     <Paper elevation={3} >
                         <div className={classes.paper}>
                             <Avatar className={classes.avatar}>
-                                <PersonAddIcon />
+                                <AccountCircleIcon  />
                             </Avatar>
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>
                             <form className={classes.form} noValidate onSubmit={this.onSubmit}>
                                 <Grid container spacing={2}>
-                                    {/* <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
-                            />
-                        </Grid> */}
+                                 
                                     <Grid item xs={12}>
                                         <TextField
-                                            variant="filled"
+                                            variant="outlined"
                                             required
                                             fullWidth
                                             id="email"
@@ -169,7 +164,7 @@ class Signin extends Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <TextField
-                                            variant="filled"
+                                            variant="outlined"
                                             required
                                             fullWidth
                                             name="password"
@@ -181,25 +176,27 @@ class Signin extends Component {
                                             onChange={this.onChange}
                                         />
                                     </Grid>
-                                
+
                                 </Grid>
                                 <Button
                                     type="submit"
-                                    fullWidth
+                                    
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
                                     onClick={this.onSubmit} disabled={loading}
-                                   
+
                                 >
-                                     {loading && <CircularProgress size={14} />}
+                                    {loading && <CircularProgress size={30} />}
                                     {!loading && 'Sign in'}
                                 </Button>
-                              
+
                                 <Grid container justifyContent="flex-end">
                                     <Grid item>
-                                        <Link href="#" variant="body2">
-                                            Don't have an account? Sign Up
+                                        <Link href="/" variant="body2">
+                                            Don't have an account? <Button variant="contained" color="primary" href="/">
+                                                Sign Up
+                                            </Button>
                                         </Link>
                                     </Grid>
                                 </Grid>
