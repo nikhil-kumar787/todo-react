@@ -93,9 +93,9 @@ class Signin extends Component {
 
                     loggedIn: true,
                 })
-                
-                this.props.history.push('/');
                 NotificationManager.success('Login Successful!', '', 2000);
+                this.props.history.push('/home');
+                
             })
             .catch(err => {
 

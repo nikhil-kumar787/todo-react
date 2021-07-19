@@ -7,6 +7,7 @@ import { NotificationContainer } from 'react-notifications';
 import Welcome from './Welcome/Welcome';
 import Forward from './Welcome/Forward';
 import Home from './Home/Home';
+import CardTodo from './components/Card';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/confirm/:confirmationCode" component={Welcome} />
           <Route path="/forward" exact component={Forward} />
           <Route path="/home" exact component={Home} />
+          <Route path="/card" exact component={CardTodo} />
           </Switch>
           <NotificationContainer />
       </Router>
